@@ -1,12 +1,15 @@
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import javax.swing.*;
 
-public class Panel extends JPanel {
+public class Panel extends JPanel implements MouseListener, MouseMotionListener {
 
 	private final int SCREEN_WIDTH = 800;
 	private final int SCREEN_HEIGHT = 600;
 	private final Dimension SCREEN_SIZE = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
-	
 	
 	float fOffsetX;
 	float fOffsetY;
@@ -17,6 +20,11 @@ public class Panel extends JPanel {
 	int nScreenX;
 	int nScreenY;
 	
+	float fStartPanX;
+	float fStartPanY;
+	
+	boolean mouseHeld = false;
+
 	Square square;
 	Image image;
 	Graphics graphics;
@@ -33,7 +41,8 @@ public class Panel extends JPanel {
 		nScreenY = 0;
 		
 		square = new Square();
-		
+
+		addMouseListener(this);
 		setPreferredSize(this.SCREEN_SIZE);
 		repaint();	
 	}
@@ -67,16 +76,57 @@ public class Panel extends JPanel {
 	public float ScreenToWorldY(int nScreenY) {
 		return (float)(fWorldY) + fOffsetY;
 	}
-	
-	
-	class Point{
-		int pixelX;
-		int pixelY;
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		Point(int x, int y){
-			pixelX = x;
-			pixelY = y;
-		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		fStartPanX = (float)e.getX();
+		fStartPanY = (float)e.getY();
+		
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+//		fOffsetX -= (e.getX() - fStartPanX); //Add scaling to this later!!
+//		fOffsetY -= (e.getY() - fStartPanY);
+		
+		fStartPanX = fOffsetX;
+		fStartPanY = fOffsetY;
+		repaint();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		fOffsetX -= (e.getX() - fStartPanX); //Add scaling to this later!!
+		fOffsetY -= (e.getY() - fStartPanY);
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
